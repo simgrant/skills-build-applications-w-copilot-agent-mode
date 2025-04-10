@@ -14,7 +14,7 @@ class TeamModelTest(TestCase):
 class ActivityModelTest(TestCase):
     def test_activity_creation(self):
         user = User.objects.create(email="test@example.com", name="Test User", password="password123")
-        activity = Activity.objects.create(user=user, type="Running", duration=30, date="2025-04-09")
+        activity = Activity.objects.create(user=user, type="Running", duration=30, date="2025-04-10")
         self.assertEqual(activity.type, "Running")
 
 class LeaderboardModelTest(TestCase):

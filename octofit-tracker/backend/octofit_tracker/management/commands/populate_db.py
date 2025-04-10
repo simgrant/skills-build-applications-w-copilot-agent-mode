@@ -1,9 +1,8 @@
 from django.core.management.base import BaseCommand
-from tracker.models import User, Team, Activity, Leaderboard, Workout
-from datetime import date
+from octofit_tracker.models import User, Team, Activity, Leaderboard, Workout
 
 class Command(BaseCommand):
-    help = 'Populate the database with test data for users, teams, activities, leaderboard, and workouts'
+    help = 'Populate the octofit_db database with test data'
 
     def handle(self, *args, **kwargs):
         # Clear existing data
@@ -13,47 +12,57 @@ class Command(BaseCommand):
         Leaderboard.objects.all().delete()
         Workout.objects.all().delete()
 
-        # Create users
+        # Test data
         users = [
-            User(email='thundergod@mhigh.edu', name='Thor', password='thundergodpassword'),
-            User(email='metalgeek@mhigh.edu', name='Tony Stark', password='metalgeekpassword'),
-            User(email='zerocool@mhigh.edu', name='Elliot Alderson', password='zerocoolpassword'),
-            User(email='crashoverride@hmhigh.edu', name='Dade Murphy', password='crashoverridepassword'),
-            User(email='sleeptoken@mhigh.edu', name='Sleep Token', password='sleeptokenpassword'),
+            {"username": "john_doe", "email": "john@example.com"},
+            {"username": "jane_smith", "email": "jane@example.com"},
         ]
-        User.objects.bulk_create(users)
-
-        # Create teams
-        team1 = Team(name='Blue Team', members=[users[0], users[1]])
-        team2 = Team(name='Gold Team', members=[users[2], users[3], users[4]])
-        team1.save()
-        team2.save()
-
-        # Create activities
+        teams = [
+            {"name": "Team Alpha", "description": "The first team."},
+            {"name": "Team Beta", "description": "The second team."},
+        ]
         activities = [
-            Activity(user=users[0], type='Cycling', duration=60, date=date(2025, 4, 9)),
-            Activity(user=users[1], type='Crossfit', duration=120, date=date(2025, 4, 8)),
-            Activity(user=users[2], type='Running', duration=90, date=date(2025, 4, 7)),
-            Activity(user=users[3], type='Strength', duration=30, date=date(2025, 4, 6)),
-            Activity(user=users[4], type='Swimming', duration=75, date=date(2025, 4, 5)),
+            {"name": "Running", "calories_burned_per_minute": 10},
+            {"name": "Cycling", "calories_burned_per_minute": 8},
         ]
-        Activity.objects.bulk_create(activities)
-
-        # Create leaderboard entries
-        leaderboard_entries = [
-            Leaderboard(team=team1, points=200),
-            Leaderboard(team=team2, points=300),
-        ]
-        Leaderboard.objects.bulk_create(leaderboard_entries)
-
-        # Create workouts
         workouts = [
-            Workout(name='Cycling Training', description='Training for a road cycling event'),
-            Workout(name='Crossfit', description='Training for a crossfit competition'),
-            Workout(name='Running Training', description='Training for a marathon'),
-            Workout(name='Strength Training', description='Training for strength'),
-            Workout(name='Swimming Training', description='Training for a swimming competition'),
+            {"user": "john_doe", "activity": "Running", "duration_minutes": 30},
+            {"user": "jane_smith", "activity": "Cycling", "duration_minutes": 45},
         ]
-        Workout.objects.bulk_create(workouts)
+        leaderboard = [
+            {"user": "john_doe", "points": 300},
+            {"user": "jane_smith", "points": 360},
+        ]
+
+        # Populate users
+        user_objects = {}
+        for user in users:
+            obj = User.objects.create(**user)
+            user_objects[user["username"]] = obj
+
+        # Populate teams
+        for team in teams:
+            Team.objects.create(**team)
+
+        # Populate activities
+        activity_objects = {}
+        for activity in activities:
+            obj = Activity.objects.create(**activity)
+            activity_objects[activity["name"]] = obj
+
+        # Populate workouts
+        for workout in workouts:
+            Workout.objects.create(
+                user=user_objects[workout["user"]],
+                activity=activity_objects[workout["activity"]],
+                duration_minutes=workout["duration_minutes"],
+            )
+
+        # Populate leaderboard
+        for entry in leaderboard:
+            Leaderboard.objects.create(
+                user=user_objects[entry["user"]],
+                points=entry["points"],
+            )
 
         self.stdout.write(self.style.SUCCESS('Successfully populated the database with test data.'))
