@@ -25,13 +25,8 @@ SECRET_KEY = "django-insecure-jjveo+xg+g+x%d5^!=&=u)#=$f!9z84gv2*)+$!a(w4zun0ed#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'fantastic-zebra-x6jgv49q9pp2vj9w-8000.app.github.dev',
-]
+ALLOWED_HOSTS = []
 
-CODESPACE_API_SUFFIX = "/api/"
 
 # Application definition
 
@@ -42,17 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "tracker",
-    "corsheaders",
 ]
 
-# Remove duplicate tracker entry
-INSTALLED_APPS = [
-    app for app in INSTALLED_APPS if app != "tracker"
-] + ["tracker"]
-
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -86,19 +73,10 @@ WSGI_APPLICATION = "octofit_tracker.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-database_name = "octofit"
-# Add djongo as the database engine
 DATABASES = {
     "default": {
-        "ENGINE": "djongo",
-        "NAME": "octofit_db",
-        "CLIENT": {
-            "host": "127.0.0.1",
-            "port": 27017,
-            "username": "octofit_user",
-            "password": "securepassword",
-            "authSource": "octofit_db",
-        },
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -143,6 +121,3 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# Enable CORS for all origins
-CORS_ALLOW_ALL_ORIGINS = True
