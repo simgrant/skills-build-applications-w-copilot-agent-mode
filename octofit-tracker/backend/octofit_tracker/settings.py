@@ -82,17 +82,17 @@ WSGI_APPLICATION = "octofit_tracker.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 database_name = "octofit"
-# Update the database configuration to include authentication credentials
+# Add djongo as the database engine
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
-        "NAME": database_name,
+        "NAME": "octofit_db",
         "CLIENT": {
             "host": "127.0.0.1",
             "port": 27017,
             "username": "octofit_user",
             "password": "securepassword",
-            "authSource": "octofit",
+            "authSource": "octofit_db",
         },
     }
 }
