@@ -25,7 +25,8 @@ SECRET_KEY = "django-insecure-jjveo+xg+g+x%d5^!=&=u)#=$f!9z84gv2*)+$!a(w4zun0ed#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Allow host access to codespace URL and localhost
+ALLOWED_HOSTS = ["fantastic-zebra-x6jgv49q9pp2vj9w-8000.app.github.dev", "localhost"]
 
 
 # Application definition
