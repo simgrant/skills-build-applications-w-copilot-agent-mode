@@ -29,6 +29,8 @@ DEBUG = True
 # Allow host access to codespace URL and localhost
 ALLOWED_HOSTS = ["fantastic-zebra-x6jgv49q9pp2vj9w-8000.app.github.dev", "localhost"]
 
+ALLOWED_HOSTS.append('127.0.0.1')
+
 
 # Application definition
 
@@ -56,7 +58,7 @@ ROOT_URLCONF = "octofit_tracker.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "octofit_tracker", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -121,7 +123,7 @@ STATIC_URL = "static/"
 
 # Add static files configuration for React
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
+    os.path.join(BASE_DIR, 'octofit_tracker', 'templates', 'static'),
 ]
 
 # Default primary key field type
